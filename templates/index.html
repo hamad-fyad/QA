@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
+</head>
+<body>
+  <div class="header">
+    <ul>
+      <li>
+        <a href="/addMovie">Add item</a>
+        <a href="/">store</a>
+        <a href="/logout" id="logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+  <h1 class="pageTitle">Store for movies and books </h1>
+  <div class="card-container">
+{% for movie in Movies %}
+<div class="card" id="movie-{{ loop.index0 }}">
+  <img class="cardImg" src="{{ movie[0] }}" alt="{{ movie[1] }}">
+  <a id="movieAction-{{ loop.index0 }}" href="/movies/{{ movie[1] }}" ><h2 id="movieActions-{{ loop.index0 }}" class="cardTitle">{{ movie[1] }}</h2></a>
+  <form  action="/movies/{{ movie[1] }}/delete" method="POST">
+
+  </form>
+</div>
+{% endfor %}
+
+  </div>
+</body>
+</html>

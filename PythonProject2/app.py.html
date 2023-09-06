@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>app.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #597cc2;}
+.s1 { color: #aeb5bd;}
+.s2 { color: #5c7ab8;}
+.s3 { color: #807d6e; font-weight: bold;}
+.s4 { color: #267dff;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+app.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">flask </span><span class="s0">import </span><span class="s1">Flask</span><span class="s2">, </span><span class="s1">render_template </span><span class="s2">, </span><span class="s1">request</span><span class="s2">, </span><span class="s1">redirect</span>
+<span class="s0">import </span><span class="s1">sqlite3</span>
+
+<span class="s1">app = Flask(__name__)</span>
+
+
+<span class="s1">@app.route(</span><span class="s3">'/'</span><span class="s1">)</span>
+<span class="s0">def </span><span class="s1">index():</span>
+    <span class="s1">con = sqlite3.connect(</span><span class="s3">'movies.db'</span><span class="s1">)</span>
+    <span class="s1">ex = con.cursor()</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s1">ex.execute(</span><span class="s3">'SELECT * FROM movies'</span><span class="s1">)</span>
+        <span class="s1">movies = ex.fetchall()</span>
+        <span class="s1">con.close()</span>
+        <span class="s0">if </span><span class="s1">len(movies) == </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">movies = [(</span><span class="s3">'http://example.com/image.png'</span><span class="s2">, </span><span class="s3">'No movies found'</span><span class="s2">, </span><span class="s3">'Please add some movies to the database'</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s1">)]</span>
+    <span class="s0">except </span><span class="s1">sqlite3.OperationalError:</span>
+        <span class="s1">movies = [(</span><span class="s3">'http://example.com/image.png'</span><span class="s2">, </span><span class="s3">'Table not found'</span><span class="s2">, </span><span class="s3">'Please create the movies table and add some movies to the database'</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s2">, </span><span class="s3">''</span><span class="s1">)]</span>
+    <span class="s0">return </span><span class="s1">render_template(</span><span class="s3">'index.html'</span><span class="s2">, </span><span class="s1">len=len(movies)</span><span class="s2">, </span><span class="s1">Movies=movies)</span>
+
+<span class="s1">@app.route(</span><span class="s3">'/addMovie'</span><span class="s2">, </span><span class="s1">methods=[</span><span class="s3">'GET'</span><span class="s1">])</span>
+<span class="s0">def </span><span class="s1">add_movie_form():</span>
+    <span class="s0">return </span><span class="s1">render_template(</span><span class="s3">'admin.html'</span><span class="s1">)</span>
+
+
+<span class="s1">@app.route(</span><span class="s3">'/addMovie'</span><span class="s2">, </span><span class="s1">methods=[</span><span class="s3">&quot;POST&quot;</span><span class="s1">])</span>
+<span class="s0">def </span><span class="s1">addMovie():</span>
+    <span class="s1">ImageURL = request.form.get(</span><span class="s3">&quot;image_url&quot;</span><span class="s1">)</span>
+    <span class="s1">title = request.form.get(</span><span class="s3">&quot;title&quot;</span><span class="s1">)</span>
+    <span class="s1">plot = request.form.get(</span><span class="s3">&quot;plot&quot;</span><span class="s1">)</span>
+    <span class="s1">director = request.form.get(</span><span class="s3">&quot;director&quot;</span><span class="s1">)</span>
+    <span class="s1">actor1 = request.form.get(</span><span class="s3">&quot;actor1&quot;</span><span class="s1">)</span>
+    <span class="s1">actor2 = request.form.get(</span><span class="s3">&quot;actor2&quot;</span><span class="s1">)</span>
+    <span class="s1">actor3 = request.form.get(</span><span class="s3">&quot;actor3&quot;</span><span class="s1">)</span>
+    <span class="s1">actor4 = request.form.get(</span><span class="s3">&quot;actor4&quot;</span><span class="s1">)</span>
+    <span class="s1">year = request.form.get(</span><span class="s3">&quot;year&quot;</span><span class="s1">)</span>
+
+    <span class="s1">entities = (ImageURL</span><span class="s2">, </span><span class="s1">title</span><span class="s2">, </span><span class="s1">plot</span><span class="s2">, </span><span class="s1">director</span><span class="s2">, </span><span class="s1">actor1</span><span class="s2">, </span><span class="s1">actor2</span><span class="s2">, </span><span class="s1">actor3</span><span class="s2">, </span><span class="s1">actor4</span><span class="s2">, </span><span class="s1">year)</span>
+    <span class="s1">con = sqlite3.connect(</span><span class="s3">'movies.db'</span><span class="s1">)</span>
+    <span class="s1">ex = con.cursor()</span>
+    <span class="s1">ex.execute(</span><span class="s3">'CREATE TABLE IF NOT EXISTS movies(image_url text, title text, plot text, director text, actor1 text, actor2 text, actor3 text, actor4 text, year text)'</span><span class="s1">)</span>
+    <span class="s1">ex.execute(</span><span class="s3">'INSERT INTO movies(image_url, title, plot, director, actor1, actor2, actor3, actor4, year) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)'</span><span class="s2">,</span><span class="s1">entities)</span>
+    <span class="s1">con.commit()</span>
+
+    <span class="s0">return </span><span class="s1">redirect(</span><span class="s3">'/'</span><span class="s1">)</span>
+
+
+<span class="s1">@app.route(</span><span class="s3">'/movies/&lt;title&gt;'</span><span class="s1">)</span>
+<span class="s0">def </span><span class="s1">movie_page(title):</span>
+    <span class="s1">con = sqlite3.connect(</span><span class="s3">'movies.db'</span><span class="s1">)</span>
+    <span class="s1">ex = con.cursor()</span>
+    <span class="s1">ex.execute(</span><span class="s3">'SELECT * FROM movies WHERE title = ?'</span><span class="s2">, </span><span class="s1">(title</span><span class="s2">,</span><span class="s1">))</span>
+    <span class="s1">movie_data = ex.fetchone()</span>
+    <span class="s1">con.close()</span>
+    <span class="s0">return </span><span class="s1">render_template(</span><span class="s3">'moviepage.html'</span><span class="s2">, </span><span class="s1">movie=movie_data)</span>
+
+
+<span class="s0">if </span><span class="s1">__name__ == </span><span class="s3">'__main__'</span><span class="s1">:</span>
+    <span class="s1">app.run(debug=</span><span class="s0">True</span><span class="s1">)</span>
+</pre>
+</body>
+</html>

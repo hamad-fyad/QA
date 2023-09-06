@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Add item</title>
+      <link rel="stylesheet" href="{{ url_for('static',filename='css/main2.css') }}">
+
+  </head>
+  <body class="body2">
+    <div class="header">
+    <ul>
+      <li>
+        <a href="/addMovie">Add item</a>
+        <a href="/">store</a>
+      </li>
+    </ul>
+  </div>
+    <h1>Add item Form</h1>
+    <form action="/addMovie" method="POST">
+      <label for="image_url">Image URL:</label>
+      <input type="text" name="image_url" id="image_url"><br><br>
+      <label for="title">Title:</label>
+      <input type="text" name="title" id="title"><br><br>
+      <label for="plot">Plot:</label>
+      <textarea name="plot" id="plot" rows="4" cols="50"></textarea><br><br>
+      <label for="director">Director:</label>
+      <input type="text" name="director" id="director"><br><br>
+      <label for="actor1">Actor 1:</label>
+      <input type="text" name="actor1" id="actor1"><br><br>
+      <label for="actor2">Actor 2:</label>
+      <input type="text" name="actor2" id="actor2"><br><br>
+      <label for="actor3">Actor 3:</label>
+      <input type="text" name="actor3" id="actor3"><br><br>
+      <label for="actor4">Actor 4:</label>
+      <input type="text" name="actor4" id="actor4"><br><br>
+      <label for="year">Year:</label>
+      <input type="text" name="year" id="year"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
