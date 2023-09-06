@@ -9,7 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 def setup():
     chrome_options = Options()
     chrome_options.add_experimental_option("detach", True)
-    service = Service(ChromeDriverManager(version="114.0.5735.90").install())
+    service = Service(ChromeDriverManager(version="116.0.5845.140").install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     yield driver
     driver.quit()

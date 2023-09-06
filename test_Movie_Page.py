@@ -63,7 +63,7 @@ class Test_Movie_Page(BaseClass):
         text = driver.find_element(By.ID, "movieAction-1").text
         driver.find_element(By.ID, "movieActions-1").click()
         try:
-            assert "shutter" in text.lower(), logger.error("not the movie shutter", text)
+            assert "shutter" in text.lower(), logger.error("not the movie shutter")
         except AssertionError as msg:
             logger.error(msg)
         else:
